@@ -169,6 +169,11 @@ class _DrawingExitFromMaze(_Maze):
         """Отображать данные в виде изображения."""
         self._ax.imshow(self._maze, cmap=plt.cm.binary, interpolation='nearest')
 
+    def __remove_coordinate_displays(self) -> None:
+        """Убрать отображения координат."""
+        self._ax.set_xticks([])
+        self._ax.set_yticks([])
+
     def __remember_path(self) -> None:
         """Запомнить путь, и при отображении изобразить её красной линией."""
         line, = self._ax.plot([], [], color='red', linewidth=2)
@@ -232,6 +237,7 @@ class _DrawingExitFromMaze(_Maze):
         self.__set_borders_in_white()
         self.__set_line_width()
         self.__display_data_as_image()
+        self.__remove_coordinate_displays()
 
         if self._path is not None:
             self.__remember_path()
