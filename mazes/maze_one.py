@@ -16,6 +16,7 @@ if TYPE_CHECKING:
 FuncAnimation: TypeAlias = animation.FuncAnimation
 
 
+# region ---------------------------- БАЗОВЫЙ КЛАСС ---------------------------------
 class _Maze:
     """Основа лабиринта."""
     def __init__(
@@ -28,8 +29,10 @@ class _Maze:
         # Определить возможные направления.
         self._directions: list[tuple[int, int]] = [(0, 1), (1, 0), (0, -1), (-1, 0)]
         self._path: Optional[list[tuple[int, int]]] = path
+# endregion -------------------------------------------------------------------------
 
 
+# region ------------------------- КЛАСС СОЗДАНИЯ -----------------------------------
 class _MazeCreate(_Maze):
     """Создание лабиринта, при помощи алгоритма поиска в `Глубину`."""
     def __init__(self, dim: int) -> None:
@@ -89,8 +92,10 @@ class _MazeCreate(_Maze):
 
         self.__create_entry_and_exit()
         return self._maze
+# endregion -------------------------------------------------------------------------
 
 
+# region ----------------------------- КЛАСС ПОИСКА ---------------------------------
 class _MazeFindingOut(_Maze):
     """
     Поиск кратчайшего пути из лабиринта, при
@@ -146,8 +151,10 @@ class _MazeFindingOut(_Maze):
         self._queue.put((self._start, []))
         path = self.__finding_best_way_out_maze()
         return path
+# endregion -------------------------------------------------------------------------
 
 
+# region ------------------------- КЛАСС АНИМАЦИИ -----------------------------------
 class _DrawingExitFromMaze(_Maze):
     """Создать анимацию прохождения лабиринта кротчайшим путем."""
     def __init__(
@@ -248,11 +255,11 @@ class _DrawingExitFromMaze(_Maze):
 
         self.__draw_entry_and_exit_arrows()
         self.__activate_animation()
+# endregion -------------------------------------------------------------------------
 
 
 class MazeOne:
     """Первый лабиринт."""
-
     def __init__(self) -> None:
         self._maze_create = _MazeCreate
         self._maze_finding_out = _MazeFindingOut

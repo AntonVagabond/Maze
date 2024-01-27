@@ -4,9 +4,9 @@ from PIL import Image, ImageDraw
 import itertools
 
 
+# region ---------------------------- БАЗОВЫЙ КЛАСС ---------------------------------
 class _Maze:
     """Основа лабиринта."""
-
     def __init__(self) -> None:
         self._maze: list[list[int]] = [
             [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -22,11 +22,12 @@ class _Maze:
         ]
         self._start: tuple[int, int] = (1, 1)
         self._end: tuple[int, int] = (5, 19)
+# endregion -------------------------------------------------------------------------
 
 
+# region ---------------------------- КЛАСС МАТРИЦЫ ---------------------------------
 class _Matrix(_Maze):
     """Создание матрицы."""
-
     def __init__(self) -> None:
         super().__init__()
         self._matrix: list = []
@@ -46,7 +47,6 @@ class _Matrix(_Maze):
 
 class _MazeAnimation(_Matrix):
     """Анимировать лабиринт."""
-
     def __init__(self) -> None:
         super().__init__()
         self._images: list = []
@@ -138,11 +138,12 @@ class _MazeAnimation(_Matrix):
             duration=1,
             loop=0,
         )
+# endregion -------------------------------------------------------------------------
 
 
+# region ----------------------------- КЛАСС ПОИСКА ---------------------------------
 class _MazeShortestWay(_MazeAnimation):
     """Поиск кратчайшего пути из лабиринта."""
-
     def __init__(self) -> None:
         super().__init__()
         self._the_path: Optional[list[tuple[int, int]]] = None
@@ -176,8 +177,10 @@ class _MazeShortestWay(_MazeAnimation):
                 self._the_path.append((row, column))
                 k -= 1
             self._draw_matrix(self._maze, self._matrix, self._the_path)
+# endregion -------------------------------------------------------------------------
 
 
+# region ----------------------------- КЛАСС ШАГОВ ----------------------------------
 class _MazeMakeStep(_MazeShortestWay):
     """Шаги по лабиринту."""
 
@@ -250,8 +253,10 @@ class _MazeMakeStep(_MazeShortestWay):
                 break
             self.__make_step(step)
             self._draw_matrix(self._maze, self._matrix)
+# endregion -------------------------------------------------------------------------
 
 
+# region ------------------------------ КЛАСС КОНСОЛИ -------------------------------
 class _MazeDisplayInConsole(_MazeMakeStep):
     """Отобразить лабиринт на консоли."""
 
@@ -261,6 +266,7 @@ class _MazeDisplayInConsole(_MazeMakeStep):
             for j in range(len(self._matrix[i])):
                 print(str(self._matrix[i][j]).ljust(2), end=' ')
             print()
+# endregion -------------------------------------------------------------------------
 
 
 class MazeTwo(_MazeDisplayInConsole,
