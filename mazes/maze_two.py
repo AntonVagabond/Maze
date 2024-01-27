@@ -149,25 +149,31 @@ class _MazeShortestWay(_MazeAnimation):
 
     def _finding_way(self):
         """Найти кратчайший путь."""
-        i, j = self._end
-        k = self._matrix[i][j]
-        self._the_path = [(i, j)]
+        row, column = self._end
+        k = self._matrix[row][column]
+        self._the_path = [(row, column)]
         while k > 1:
-            if i > 0 and self._matrix[i - 1][j] == k - 1:
-                i, j = i - 1, j
-                self._the_path.append((i, j))
+            if row > 0 and self._matrix[row - 1][column] == k - 1:
+                row, column = row - 1, column
+                self._the_path.append((row, column))
                 k -= 1
-            elif j > 0 and self._matrix[i][j - 1] == k - 1:
-                i, j = i, j - 1
-                self._the_path.append((i, j))
+            elif column > 0 and self._matrix[row][column - 1] == k - 1:
+                row, column = row, column - 1
+                self._the_path.append((row, column))
                 k -= 1
-            elif i < len(self._matrix) - 1 and self._matrix[i + 1][j] == k - 1:
-                i, j = i + 1, j
-                self._the_path.append((i, j))
+            elif (
+                    row < len(self._matrix) - 1 and
+                    self._matrix[row + 1][column] == k - 1
+            ):
+                row, column = row + 1, column
+                self._the_path.append((row, column))
                 k -= 1
-            elif j < len(self._matrix[i]) - 1 and self._matrix[i][j + 1] == k - 1:
-                i, j = i, j + 1
-                self._the_path.append((i, j))
+            elif (
+                    column < len(self._matrix[row]) - 1 and
+                    self._matrix[row][column + 1] == k - 1
+            ):
+                row, column = row, column + 1
+                self._the_path.append((row, column))
                 k -= 1
             self._draw_matrix(self._maze, self._matrix, self._the_path)
 
