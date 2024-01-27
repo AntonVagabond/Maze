@@ -31,7 +31,7 @@ class _Maze:
 
 
 class _MazeCreate(_Maze):
-    """Создание лабиринта."""
+    """Создание лабиринта, при помощи алгоритма поиска в `Глубину`."""
     def __init__(self, dim: int) -> None:
         super().__init__()
         # размер лабиринта
@@ -92,7 +92,10 @@ class _MazeCreate(_Maze):
 
 
 class _MazeFindingOut(_Maze):
-    """Поиск кратчайшего выхода из лабиринта."""
+    """
+    Поиск кратчайшего пути из лабиринта, при
+    помощи алгоритма поиска в `Ширину`.
+    """
     def __init__(self, maze: ndarray[ndarray[float64]]) -> None:
         super().__init__(maze=maze)
         self._visited: Optional[ndarray[ndarray[bool]]] = None
@@ -182,12 +185,12 @@ class _DrawingExitFromMaze(_Maze):
     def __init(self) -> tuple[Line2D]:
         """Функция инициализации."""
         self._line.set_data([], [])
-        return self._line,
+        return (self._line,)
 
     def __update(self, frame: int) -> tuple[Line2D]:
         """Функция обновления."""
         self._line.set_data(*zip(*[(p[1], p[0]) for p in self._path[:frame + 1]]))
-        return self._line,
+        return (self._line,)
 
     def __display_path_with_red_line(self) -> FuncAnimation:
         """Отобразить путь красной линией."""
